@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer {
+    text-align: center;
+}
+
+.timer-circle {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 20px solid #66CCCC; /* Cool blue color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.timer-circle .time {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.controls input[type="number"] {
+    width: 50px;
+    height: 30px;
+    font-size: 18px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.controls button {
+    width: 100px;
+    height: 30px;
+    font-size: 18px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #66CCCC;
+    color: #fff;
+    cursor: pointer;
+}
+
+.controls button:hover {
+    background-color: #4C9A9A;
+}
+
+.cool-blue {
+    border-color: #66CCCC;
+}
+
+.deep-purple {
+    border-color: #7A288A;
+}
+
+.mint-green {
+    border-color: #ACFFAC;
+}
+
+.cool-blue .controls button {
+    background-color: #66CCCC;
+}
+
+.cool-blue .controls button:hover {
+    background-color: #4C9A9A;
+}
+
+.deep-purple .controls button {
+    background-color: #7A288A;
+}
+
+.deep-purple .controls button:hover {
+    background-color: #5C1A6A;
+}
+
+.mint-green .controls button {
+    background-color: #ACFFAC;
+}
+
+.mint-green .controls button:hover {
+    background-color: #8BC34A;
+}
