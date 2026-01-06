@@ -49,12 +49,14 @@ def start_pomodoro(work_time, break_time):
         for i in range(break_time, 0, -1):
             time.sleep(1)
 
-# Start the Pomodoro timer in a separate thread
-threading.Thread(target=start_pomodoro, args=(pomodoro_settings.work_time, pomodoro_settings.break_time)).start()
-
 @app.get("/")
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "work_time": pomodoro_settings.work_time // 60, "break_time": pomodoro_settings.break_time // 60})
+
+@app.post("/start_timer")
+def start_timer():
+    threading.Thread(target=start_pomodoro, args=(pomodoro_settings.work_time, pomodoro_settings.break_time)).start()
+    return {"message": "Timer started"}
 
 @app.post("/update_settings")
 def update_settings(settings: PomodoroSettings):
