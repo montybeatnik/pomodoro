@@ -18,7 +18,7 @@ body {
     height: 300px;
     border-radius: 50%;
     background-color: #fff;
-    border: 20px solid #66CCCC; /* Cool blue color */
+    border: 20px solid #66CCCC;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -59,6 +59,14 @@ body {
 
 .controls button:hover {
     background-color: #4C9A9A;
+}
+
+.controls button#reset-button {
+    background-color: #FF0000;
+}
+
+.controls button#reset-button:hover {
+    background-color: #CC0000;
 }
 
 .cool-blue {

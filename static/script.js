@@ -8,6 +8,7 @@ const timeElement = document.getElementById('time');
 const workTimeInput = document.getElementById('work-time');
 const breakTimeInput = document.getElementById('break-time');
 const startButton = document.getElementById('start-button');
+const resetButton = document.getElementById('reset-button');
 
 startButton.addEventListener('click', () => {
     if (!isRunning) {
@@ -20,10 +21,20 @@ startButton.addEventListener('click', () => {
     }
 });
 
+resetButton.addEventListener('click', () => {
+    isRunning = false;
+    startButton.textContent = 'Start';
+    currentTime = workTime;
+    isWorkTime = true;
+    updateTime();
+});
+
 workTimeInput.addEventListener('change', (e) => {
     workTime = parseInt(e.target.value) * 60;
-    currentTime = workTime;
-    updateTime();
+    if (!isRunning) {
+        currentTime = workTime;
+        updateTime();
+    }
 });
 
 breakTimeInput.addEventListener('change', (e) => {
@@ -36,15 +47,13 @@ function startTimer() {
             currentTime--;
             updateTime();
 
-            if (currentTime === 0) {
+            if (currentTime <= 0) {
                 if (isWorkTime) {
-                    // Play sound when work time ends
                     playSound(660); // Hz (E5 note)
                     isWorkTime = false;
                     currentTime = breakTime;
                 } else {
-                    // Play sound when break time ends
-                    playSound(440, 2000); // Hz (A4 note)
+                    playSound(440); // Hz (A4 note)
                     isWorkTime = true;
                     currentTime = workTime;
                 }
@@ -96,3 +105,15 @@ startButton.addEventListener('click', () => {
 
 // Initialize the color scheme
 timerElement.classList = colorSchemes[currentColorSchemeIndex];
+
+resetButton.addEventListener('click', () => {
+    fetch('/reset_timer', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => console.log(data.message));
+
+    isRunning = false;
+    startButton.textContent = 'Start';
+    currentTime = workTimeInput.value * 60;
+    isWorkTime = true;
+    updateTime();
+});

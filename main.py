@@ -58,6 +58,11 @@ def start_timer():
     threading.Thread(target=start_pomodoro, args=(pomodoro_settings.work_time, pomodoro_settings.break_time)).start()
     return {"message": "Timer started"}
 
+@app.post("/reset_timer")
+def reset_timer():
+    # You can add any necessary logic here to reset the timer
+    return {"message": "Timer reset"}
+
 @app.post("/update_settings")
 def update_settings(settings: PomodoroSettings):
     global pomodoro_settings
