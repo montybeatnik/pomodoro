@@ -10,16 +10,6 @@ const breakTimeInput = document.getElementById('break-time');
 const startButton = document.getElementById('start-button');
 const resetButton = document.getElementById('reset-button');
 
-startButton.addEventListener('click', () => {
-    if (!isRunning) {
-        isRunning = true;
-        startButton.textContent = 'Stop';
-        startTimer();
-    } else {
-        isRunning = false;
-        startButton.textContent = 'Start';
-    }
-});
 
 resetButton.addEventListener('click', () => {
     isRunning = false;
@@ -44,16 +34,19 @@ breakTimeInput.addEventListener('change', (e) => {
 function startTimer() {
     const intervalId = setInterval(() => {
         if (isRunning) {
-            currentTime--;
-            updateTime();
-
-            if (currentTime <= 0) {
+            if (currentTime > 0) {
+                currentTime--;
+                updateTime();
+            } else {
+                console.log('Time is up!');
                 if (isWorkTime) {
-                    playSound(660); // Hz (E5 note)
+                    console.log('Playing break sound');
+                    playSound(660);
                     isWorkTime = false;
                     currentTime = breakTime;
                 } else {
-                    playSound(440); // Hz (A4 note)
+                    console.log('Playing work sound');
+                    playSound(440);
                     isWorkTime = true;
                     currentTime = workTime;
                 }
@@ -68,6 +61,7 @@ function updateTime() {
     const minutes = Math.floor(currentTime / 60);
     const seconds = currentTime % 60;
     timeElement.textContent = `${padZero(minutes)}:${padZero(seconds)}`;
+    console.log(`Updated time: ${timeElement.textContent}`);
 }
 
 function padZero(num) {
@@ -75,16 +69,20 @@ function padZero(num) {
 }
 
 function playSound(frequency) {
-    const audioContext = new AudioContext();
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    oscillator.connect(audioContext.destination);
-    oscillator.start();
-    setTimeout(() => {
-        oscillator.stop();
-        audioContext.close();
-    }, 2000); // Play sound for 2 seconds
+    try {
+        const audioContext = new AudioContext();
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = frequency;
+        oscillator.connect(audioContext.destination);
+        oscillator.start();
+        setTimeout(() => {
+            oscillator.stop();
+            audioContext.close();
+        }, 2000); // Play sound for 2 seconds
+    } catch (error) {
+        console.error('Error playing sound:', error);
+    }
 }
 
 updateTime();
@@ -96,8 +94,12 @@ let currentColorSchemeIndex = 0;
 const timerElement = document.getElementById('timer');
 
 startButton.addEventListener('click', () => {
-    // ... (rest of the event listener code remains the same)
-
+    console.log('Start button clicked');
+    isRunning = !isRunning;
+    startButton.textContent = isRunning ? 'Stop' : 'Start';
+    if (isRunning) {
+        startTimer();
+    }
     // Switch color scheme on every start
     currentColorSchemeIndex = (currentColorSchemeIndex + 1) % colorSchemes.length;
     timerElement.classList = colorSchemes[currentColorSchemeIndex];
